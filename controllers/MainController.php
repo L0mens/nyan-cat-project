@@ -8,7 +8,7 @@ class MainController{
 
     }
 
-    public function Index(){
+    public function Index() : void {
         $indexView = new View('Index');
         $indexView->generer([]);
 

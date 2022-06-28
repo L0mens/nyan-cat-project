@@ -11,6 +11,7 @@
 <body>
 <header>
     <!-- Menu -->
+    <nav>
     <a href="index.php" id="logo" class="flex-child">
         <img src="https://c.tenor.com/b5KaSeHWOtUAAAAC/nyan-cat-rainbow-cat.gif" alt="nyan cat gif">
     </a>
@@ -23,6 +24,7 @@
     <a href="index.php?page=search" id="nav-search" class="flex-child nav-hover">
         Recherche
     </a>
+    </nav>
 </header>
 <main id="contenu">
     <?= $contenu ?>

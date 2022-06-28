@@ -7,7 +7,7 @@ html, body {
     margin:0;
 }
 
-header{
+header nav{
     height: 80px;
     width: 100%;
     display: flex;
