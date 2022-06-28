@@ -1,9 +1,11 @@
 # nyan-cat-project
 
-## Mise en place du projet
+## PHP TP1 -  Mise en place du projet
 
-Votre mission sera de développer une application Web PHP pour gérer une animalerie. 
+Votre mission sera de développer une application Web PHP pour gérer une animalerie.
 Vous devrez gérer les actions pour manager vos animaux ainsi que leurs propriétaires.
+Pour ajouter de la structure au projet, nous allons travailler avec un design pattern : Le MVC (Model-View-Controller).
+[Voir détails](https://fr.wikipedia.org/wiki/Modèle-vue-contrôleur)
 
 ### 1 - Mise en place de l'architecture des dossiers
 
@@ -140,7 +142,7 @@ Vous pourrez aussi voir comment affichier le contenu d'une variable vu que le ti
 **2.4 :** Pour notre page d'accueil, nous allons faire simple. Du moins pour le moment, pour avoir une preuve que tout fonctionne
 Créez le fichier views/vueIndex.php avec du code simple
 
-```html
+```php
 <h1>Bienvenue chez <?= $nomAnimalerie ?></h1>
 ```
 
@@ -165,9 +167,11 @@ public function Index() : void {
 Prenez bien le temps de comprendre ce que fait cette fonction. Et surtout que les paramètres ne sont pas choisis au hazard ;)
 
 **3.3 :** Pour finaliser notre controleur, nous devons nous reposer sur un autre composant (souvent dans l'ombre) => Le router.
+
 Celui-ci sera EXTREMEMENT simple au début. Au fur et à mesure du développement de l'application, il faudra faire attention à ce que ce dernier reste le plus clean possible.
-Cette fois, pas besoin de créer un fichier, nous allons utiliser notre index.php
-Pour tester que tout marche, il nous suffit d'instancier un MainController et d'en appeler sa méthode Index().
+
+Cette fois, pas besoin de créer un fichier, nous allons utiliser notre index.php.
+Pour tester que tout marche, il nous suffit d'instancier un MainController et d'en appeler sa méthode Index(). (⚠ require_once ⚠)
 
 Si tout vas bien, votre page devrait s'afficher avec notre h1 !
 
@@ -188,9 +192,7 @@ Si tout vas bien, votre page devrait s'afficher avec notre h1 !
  ┃ ┣ 📜gabarit.php
  ┃ ┣ 📜View.php
  ┃ ┗ 📜vueIndex.php
- ┣ 📜index.php
- ┣ 📜LICENSE
- ┗ 📜README.md
+ ┗ 📜index.php
 ```
 
 En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouton factice dans la balise nav de votre Gabarit !!
