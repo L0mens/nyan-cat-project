@@ -207,9 +207,9 @@ En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouto
 
 ```mermaid
 erDiagram
-ANIMAUX {
+ANIMAL {
         int idAnimal PK "AI"
-        varchar nomAnimal "NOT NULL"
+        varchar nom "NOT NULL"
         int age
         varchar espece
         varchar cri
@@ -221,7 +221,9 @@ Je vous invite à bien utiliser UTF-8 (utf8_general_ci par exemple) pour éviter
 
 Essayez d'insérer un animal avec des données cohérentes que nous pourrons afficher plus tard sur notre page web.
 
-**1.3 :** Il est temps de repasser sur notre projet PHP. Créez le fichier models/Model.php suivant ce schémas :
+### Coté code
+
+**2.1 :** Il est temps de repasser sur notre projet PHP. Créez le fichier models/Model.php suivant ce schémas :
 
 ```mermaid
 classDiagram
@@ -242,4 +244,31 @@ Un peu d'aide => Voici un exemple de paramètre que notre fonction pourrait rece
 ```php
 $sql = 'select * from T_COMMENTAIRE where BIL_ID=?';
 $commentaires = $this->executerRequete($sql, array($idBillet));
+```
+
+**2.2 :** Il est temps de créer notre entité avec son manager ! Voici le diagramme de nos classe models/Animal.php et models/AnimalManager.php
+
+```mermaid
+classDiagram
+direction LR
+class Animal{
+    -int $idAnimal
+    -string $nom
+    -string $proprietaire
+    -string $espece
+    -string $cri
+    -int $age
+}
+class AnimalManager{
+    getAll() Array~Animal~
+    getByID(int $idAnimal) Animal
+}
+Model <|-- Animal : hérite
+Animal <.. AnimalManager : dépend
+```
+
+Comme les attributs de la classe Aniaml sont privés. Vous ajouterez les Getter & Setter associés.
+
+```text
+Si vous voulez implémenter l'Hydratation dès maintenant, ne vous genez pas ;) Cela sera demandé plus tard dans tous les cas.
 ```
