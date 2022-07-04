@@ -226,9 +226,20 @@ Essayez d'insérer un animal avec des données cohérentes que nous pourrons aff
 ```mermaid
 classDiagram
 class Model {
+    <<abstract>>
     -PDO db
     #execRequest(string $sql, array $params = null) PDOStatement
     -getDB() PDO
 }
 ```
 
+Il vous faudra coder la fonction getDB -> Cette fonction à pour but d'instancier un objet PDO avec les infos de connexion dans l'attribut $db s'il n'est pas null. Puis, elle retournera simplement l'attribut $db. N'hesitez à vous référer à votre cours et à la doc pour l'instance de PDO
+
+Pour la fonction execRequest, celli à pour objectif d'éxecuter la requête $sql passé en paramètre. Elle pourra être préparé et executé avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
+
+Un peu d'aide => Voici un exemple de paramètre que notre fonction pourrait recevoir :
+
+```php
+$sql = 'select * from T_COMMENTAIRE where BIL_ID=?';
+$commentaires = $this->executerRequete($sql, array($idBillet));
+```

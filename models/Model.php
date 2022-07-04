@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class Model {
+abstract class Model {
     private $db;
 
     protected function execRequest(string $sql, array $params = null){
