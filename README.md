@@ -196,3 +196,39 @@ Si tout vas bien, votre page devrait s'afficher avec notre h1 !
 ```
 
 En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouton factice dans la balise nav de votre Gabarit !!
+
+## PHP TP2 -  Stocker et afficher les données
+
+### Coté base de données
+
+**1.1 :** Vous devriez avoir accès à une base de donnée MySQL (via grp ou bien XAMPP). Regardez la procédure pour acceder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de donnée. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
+
+**1.2 :** Nous allons pour le moment nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schémas :
+
+```mermaid
+erDiagram
+ANIMAUX {
+        int idAnimal PK "AI"
+        varchar nomAnimal "NOT NULL"
+        int age
+        varchar espece
+        varchar cri
+        varchar proprietaire
+    }
+```
+
+Je vous invite à bien utiliser UTF-8 (utf8_general_ci par exemple) pour éviter les soucis d'accents. De plus, veillez à utiliser InnoDB comme moteur pour votre table. Nous pourrons en avoir besoin plus tard.
+
+Essayez d'insérer un animal avec des données cohérentes que nous pourrons afficher plus tard sur notre page web.
+
+**1.3 :** Il est temps de repasser sur notre projet PHP. Créez le fichier models/Model.php suivant ce schémas :
+
+```mermaid
+classDiagram
+class Model {
+    -PDO db
+    #execRequest(string $sql, array $params = null) PDOStatement
+    -getDB() PDO
+}
+```
+
