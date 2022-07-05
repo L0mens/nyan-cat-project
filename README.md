@@ -254,16 +254,16 @@ direction LR
 class Animal{
     -int $idAnimal
     -string $nom
-    -string $proprietaire
-    -string $espece
-    -string $cri
-    -int $age
+    -?string $proprietaire
+    -?string $espece
+    -?string $cri
+    -?int $age
 }
 class AnimalManager{
     getAll() Array~Animal~
     getByID(int $idAnimal) Animal
 }
-Model <|-- Animal : hérite
+Model <|-- AnimalManager : hérite
 Animal <.. AnimalManager : dépend
 ```
 
