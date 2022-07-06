@@ -270,7 +270,8 @@ Animal <.. AnimalManager : dépend
 Comme les attributs de la classe Animal sont privés. Vous ajouterez les Getter & Setter associés.
 
 ```text
-Si vous voulez implémenter l'Hydratation dès maintenant, ne vous genez pas ;) Cela sera demandé plus tard dans tous les cas.
+Si vous voulez implémenter l'Hydratation dès maintenant, ne vous genez pas ;) 
+Cela sera demandé plus tard dans tous les cas.
 ```
 
 Il vous faudra implémenter les methodes getAll et getByID de la classe AnimalManager. Elles ont pour vocation d'utiliser la méthode execRequest pour récupérer les données de la BD et les transformer soit en array d'Animal soit juste en un Animal (getByID ne pouvant retourner évidemment qu'une valeur sinon null)
@@ -296,7 +297,9 @@ Code vueIndex.php
 Affichage Moche :
 
 ```text
-object(Animal)#6 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } object(Animal)#5 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } NULL
+object(Animal)#6 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } 
+object(Animal)#5 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } 
+NULL
 ```
 
 ## Coté design
@@ -311,10 +314,29 @@ Vous êtes libre d'utiliser une librairie pour le CSS ou de le coder vous même.
 
 ### Exemple avec Materialize
 
-![Example index](/doc/img/index-tp2-3-2.png)
+![Example index](/doc/img/index-tp2-3-2.PNG)
 
-## Coté Bonus
+Bien joué si vous êtes toujours en vie jusqu'ici :D 
+
+## Coté Bonus (Difficile)
 
 Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de donnée directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
 
-Je vous propose d'essayer de remedier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple. 
+Je vous propose d'essayer de remedier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple.
+
+Celle-ci pourrait charger les informations à l'aide d'un fichier de configuration .ini
+
+Pour vous aiguiller, regarder la doc de la fonction parse_ini_file.
+
+Voici un exemple de fichier dev.ini
+
+```ini
+;config dev
+[DB]
+dsn = 'mysql:host=localhost;dbname=yourdbname;charset=utf8';
+user = 'user';
+pass = 'password';
+```
+
+Ainsi, vous n'aurez qu'à gitignore votre dev.ini et mettre un dev_sample.ini avec des informations standard. L'utilisateur voulant utiliser votre projet n'aura qu'à mettre ses infos ici (Très utile pour le partage ou le déploiement)
+

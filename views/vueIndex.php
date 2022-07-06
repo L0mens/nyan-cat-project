@@ -31,7 +31,6 @@
                 <td> <a href="#"><i class="material-icons">edit</i></a> <a href="#"><i class="material-icons">delete</i></td></a>
             </tr>
         <?php endforeach; ?>
-
         </tbody>
     </table>
 </div>

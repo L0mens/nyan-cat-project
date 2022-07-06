@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once 'Config.php';
+require_once './config/Config.php';
 
 
 abstract class Model
@@ -24,7 +24,7 @@ abstract class Model
         if ($this->db == null) {
             // Création de la connexion
 
-            $this->db = new PDO(Config::$dsn, Config::$user, Config::$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $this->db = new PDO(Config::get('dsn'), Config::get('user'), Config::get('pass'), array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
         return $this->db;
     }
