@@ -15,4 +15,15 @@ class AnimalManager extends Model {
         return $aniArr;
 
     }
+
+    public function getByID(int $id) : ?Animal {
+        $sql = "SELECT * FROM animal where idAnimal = ?";
+        $datas = $this->execRequest($sql, [$id]);
+        $ani = null;
+        if($data = $datas->fetch()){
+            $ani = new Animal($data);
+        }
+        return $ani;
+
+    }
 }
