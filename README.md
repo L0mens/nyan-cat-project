@@ -197,9 +197,9 @@ Si tout vas bien, votre page devrait s'afficher avec notre h1 !
 
 En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouton factice dans la balise nav de votre Gabarit !!
 
-## PHP TP2 -  Stocker et afficher les données
+# PHP TP2 -  Stocker et afficher les données
 
-### Coté base de données
+## Coté base de données
 
 **1.1 :** Vous devriez avoir accès à une base de donnée MySQL (via grp ou bien XAMPP). Regardez la procédure pour acceder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de donnée. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
 
@@ -221,7 +221,7 @@ Je vous invite à bien utiliser UTF-8 (utf8_general_ci par exemple) pour éviter
 
 Essayez d'insérer un animal avec des données cohérentes que nous pourrons afficher plus tard sur notre page web.
 
-### Coté code
+## Coté code
 
 **2.1 :** Il est temps de repasser sur notre projet PHP. Créez le fichier models/Model.php suivant ce schémas :
 
@@ -267,8 +267,54 @@ Model <|-- AnimalManager : hérite
 Animal <.. AnimalManager : dépend
 ```
 
-Comme les attributs de la classe Aniaml sont privés. Vous ajouterez les Getter & Setter associés.
+Comme les attributs de la classe Animal sont privés. Vous ajouterez les Getter & Setter associés.
 
 ```text
 Si vous voulez implémenter l'Hydratation dès maintenant, ne vous genez pas ;) Cela sera demandé plus tard dans tous les cas.
 ```
+
+Il vous faudra implémenter les methodes getAll et getByID de la classe AnimalManager. Elles ont pour vocation d'utiliser la méthode execRequest pour récupérer les données de la BD et les transformer soit en array d'Animal soit juste en un Animal (getByID ne pouvant retourner évidemment qu'une valeur sinon null)
+
+**2.3 :** Maintenant que nous avons toute nos armes pour récupérer la donnée, il faut que le controllers les récupère pour les envoyer à la vue et enfin les afficher o/
+
+Pour tester que tout marche, faite une instance du manager dans la fonction Index. Sauvegarder dans 3 variables différentes le retour des fonction getAll(), getByID(idQuiExiste) et getByID(idQuiNexistePas).
+
+Et pour finir passez les à votre vue Index généré et allez var_dump ces variable dans le fichier vueIndex.php.
+
+Vous devriez avoir une liste, un animal, et null si tout s'est déroulé correctement (dans un format d'afficahge moche au possible ;) ).
+
+Code vueIndex.php
+
+```php
+<?php var_dump($listAnimals); ?>
+
+<?php var_dump($first); ?>
+
+<?php var_dump($other); ?>
+```
+
+Affichage Moche :
+
+```text
+object(Animal)#6 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } object(Animal)#5 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } NULL
+```
+
+## Coté design
+
+**3.1 :**: Il est grands temps de rendre cet affichage un peu plus classe. Sur notre page Index, faite afficher un tableau HTML avec les données de nos animaux !
+
+```text
+Vous êtes libre d'utiliser une librairie pour le CSS ou de le coder vous même. 
+```
+
+**3.2 :** Nous allons préparer l'avenir de notre tableau. Pour cela, il faudra ajouter une colonne avec comme entête "Option". Nous pourrons alors pour chaque ligne, ajouté un lien représenté par soit un texte, une icone, un bouton, ... . Ces derniers permettront de modofier ou supprimer un animal !
+
+### Exemple avec Materialize
+
+![Example index](/doc/img/index-tp2-3-2.png)
+
+## Coté Bonus
+
+Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de donnée directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
+
+Je vous propose d'essayer de remedier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple. 
