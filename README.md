@@ -1,13 +1,13 @@
 # nyan-cat-project
 
-## PHP TP1 -  Mise en place du projet
+# PHP TP1 -  Mise en place du projet
 
 Votre mission sera de développer une application Web PHP pour gérer une animalerie.
 Vous devrez gérer les actions pour manager vos animaux ainsi que leurs propriétaires.
 Pour ajouter de la structure au projet, nous allons travailler avec un design pattern : Le MVC (Model-View-Controller).
 [Voir détails](https://fr.wikipedia.org/wiki/Modèle-vue-contrôleur)
 
-### 1 - Mise en place de l'architecture des dossiers
+## 1 - Mise en place de l'architecture des dossiers
 
 Dans votre dossier de travail (Bureau, Dossier XAMP, ...) vous allez créer un premier fichier index.php
 Il servira de point d'entrée de votre application. Nous allons ensuite créer quelques dossiers.
@@ -23,7 +23,7 @@ Il servira de point d'entrée de votre application. Nous allons ensuite créer q
 ┣ 📜index.php
 ```
 
-### 2 - Gérer la partie V du MVC
+## 2 - Gérer la partie V du MVC
 
 **2.1 :** Pour gérer l'affichage de nos pages, nous allons créer une classe View dans le fichier views/View.php. (Cette notation implique de créer le fichier View.php dans le dossier views).
 Voici le diagramme de notre classe
@@ -95,7 +95,7 @@ Si vous analysez bien le code, il fait références à 2 types de fichiers.
 - Les fichiers vue{qqchose}.php que nous verrons plus tard
 - Le fichier gabarit.php que nous allons voir maintenant sur
 
-**2.3 :** Le fichier gabarit sert à représenter tout ce qui est présent en permanence sur notre page (menu, pied de page, logo, ...). C'est celui-ci qui chargerait notre css, js et autre dépendances dans la balise head.
+**2.3 :** Le fichier gabarit sert à représenter tout ce qui est présent en permanence sur notre page (menu, pied de page, logo, ...). C'est celui-ci qui chargerait notre css, js et autres dépendances dans la balise head.
 
 Pour commencer créer un fichier views/gabarit.php. Celui-ci aura accès grâce a la classe View à 2 variables :
 
@@ -137,7 +137,7 @@ Vous pouvez faire votre propre gabarit si besoin.
 
 Si vous êtes observateur, vous remarquerez une référence à un fichier css. Je vous recommande de le créé pour styliser votre page (📝 et oui le css compte dans la note).
 
-Vous pourrez aussi voir comment affichier le contenu d'une variable vu que le titre est affiché dans la balise title. A vous d'afficher le contenu.
+Vous pourrez aussi voir comment afficher le contenu d'une variable vu que le titre est affiché dans la balise title. A vous d'afficher le contenu.
 
 **2.4 :** Pour notre page d'accueil, nous allons faire simple. Du moins pour le moment, pour avoir une preuve que tout fonctionne
 Créez le fichier views/vueIndex.php avec du code simple
@@ -148,14 +148,14 @@ Créez le fichier views/vueIndex.php avec du code simple
 
 Ce sera tout pour la vue pour le moment
 
-### 3 - Gérer le controleur pour afficher la vue
+## 3 - Gérer le controleur pour afficher la vue
 
-Il est grand temps d'afficher quelque chose ! Mais pour cela, il nous faudra un chef d'orchestre ! Le controleur à la rescousse.
+Il est grand temps d'afficher quelque chose ! Mais pour cela, il nous faudra un chef d'orchestre ! Le contrôleur à la rescousse.
 
 **3.1 :** Nous allons créer une classe MainController dans le fichier controllers/MainController.php
-Pour le moment, il ne fera pas grand chose d'autre que construire notre vue. **N'oubliez pas de require_once votre classe View !!**
+Pour le moment, il ne fera pas grands chose d'autre que construire notre vue. **N'oubliez pas de require_once votre classe View !!**
 
-**3.2 :** Ajoutons une fonction Index qui aura pour but de génerer notre vue.
+**3.2 :** Ajoutons une fonction Index qui aura pour but de générer notre vue.
 
 ```php
 public function Index() : void {
@@ -166,7 +166,7 @@ public function Index() : void {
 
 Prenez bien le temps de comprendre ce que fait cette fonction. Et surtout que les paramètres ne sont pas choisis au hazard ;)
 
-**3.3 :** Pour finaliser notre controleur, nous devons nous reposer sur un autre composant (souvent dans l'ombre) => Le router.
+**3.3 :** Pour finaliser notre contrôleur, nous devons nous reposer sur un autre composant (souvent dans l'ombre) => Le router.
 
 Celui-ci sera EXTREMEMENT simple au début. Au fur et à mesure du développement de l'application, il faudra faire attention à ce que ce dernier reste le plus clean possible.
 
@@ -175,7 +175,7 @@ Pour tester que tout marche, il nous suffit d'instancier un MainController et d'
 
 Si tout vas bien, votre page devrait s'afficher avec notre h1 !
 
-### 4 : Fin du TP1 et bonus
+## 4 : Fin du TP1 et bonus
 
 À la fin, ton arborescence devrait ressembler à cela
 
@@ -195,4 +195,147 @@ Si tout vas bien, votre page devrait s'afficher avec notre h1 !
  ┗ 📜index.php
 ```
 
-En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouton factice dans la balise nav de votre Gabarit !!
+En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des boutons factice dans la balise nav de votre Gabarit !!
+
+# PHP TP2 - Stocker et afficher les données
+
+## Coté base de données
+
+**1.1 :** Vous devriez avoir accès à une base de donnée MySQL (via grp ou bien XAMPP). Regardez la procédure pour accéder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de donnée. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
+
+**1.2 :** Nous allons pour le moment nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schéma :
+
+```mermaid
+erDiagram
+ANIMAL {
+        int idAnimal PK "AI"
+        varchar nom "NOT NULL"
+        int age
+        varchar espece
+        varchar cri
+        varchar proprietaire
+    }
+```
+
+Je vous invite à bien utiliser UTF-8 (utf8_general_ci par exemple) pour éviter les soucis d'accents. De plus, veillez à utiliser InnoDB comme moteur pour votre table. Nous pourrons en avoir besoin plus tard.
+
+Essayez d'insérer un animal avec des données cohérentes que nous pourrons afficher plus tard sur notre page web.
+
+## Coté code
+
+**2.1 :** Il est temps de repasser sur notre projet PHP. Créez le fichier models/Model.php suivant ce schéma :
+
+```mermaid
+classDiagram
+class Model {
+    <<abstract>>
+    -PDO db
+    #execRequest(string $sql, array $params = null) PDOStatement
+    -getDB() PDO
+}
+```
+
+Il vous faudra coder la fonction getDB -> Cette fonction à pour but d'instancier un objet PDO avec les infos de connexion dans l'attribut $db s'il n'est pas null. Puis, elle retournera simplement l'attribut $db. N'hésitez à vous référer à votre cours et à la doc pour l'instance de PDO
+
+Pour la fonction execRequest, celle-ci à pour objectif d'exécuter la requête $sql passé en paramètre. Elle pourra être préparée et exécutée avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
+
+Un peu d'aide => Voici un exemple de paramètre que notre fonction pourrait recevoir :
+
+```php
+$sql = 'select * from T_COMMENTAIRE where BIL_ID=?';
+$commentaires = $this->executerRequete($sql, array($idBillet));
+```
+
+**2.2 :** Il est temps de créer notre entité avec son manager ! Voici le diagramme de nos classes models/Animal.php et models/AnimalManager.php
+
+```mermaid
+classDiagram
+direction LR
+class Animal{
+    -int $idAnimal
+    -string $nom
+    -?string $proprietaire
+    -?string $espece
+    -?string $cri
+    -?int $age
+}
+class AnimalManager{
+    getAll() Array~Animal~
+    getByID(int $idAnimal) Animal
+}
+Model <|-- AnimalManager : hérite
+Animal <.. AnimalManager : dépend
+```
+
+Comme les attributs de la classe Animal sont privés. Vous ajouterez les Getter & Setter associé.
+
+```text
+Si vous voulez implémenter l'Hydratation dès maintenant, ne vous genez pas ;) 
+Cela sera demandé plus tard dans tous les cas.
+```
+
+Il vous faudra implémenter les méthodes getAll et getByID de la classe AnimalManager. Elles ont pour vocation d'utiliser la méthode execRequest pour récupérer les données de la BD et les transformer soit en array d'Animal soit juste en un Animal (getByID ne pouvant retourner évidemment qu'une valeur sinon null)
+
+**2.3 :** Maintenant que nous avons toutes nos armes pour récupérer la donnée, il faut que le controllers les récupère pour les envoyer à la vue et enfin les afficher o/
+
+Pour tester que tout marche, faite une instance du manager dans la fonction Index. Sauvegarder dans 3 variables différentes le retour des fonctions getAll(), getByID(idQuiExiste) et getByID(idQuiNexistePas).
+
+Et pour finir passez les à votre vue Index généré et allez var_dump ces variables dans le fichier vueIndex.php.
+
+Vous devriez avoir une liste, un animal, et null si tout s'est déroulé correctement (dans un format d'affichage moche au possible ;) ).
+
+Code vueIndex.php
+
+```php
+<?php var_dump($listAnimals); ?>
+
+<?php var_dump($first); ?>
+
+<?php var_dump($other); ?>
+```
+
+Affichage Moche :
+
+```text
+object(Animal)#6 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } 
+object(Animal)#5 (6) { ["idAnimal":"Animal":private]=> int(1) ["nom":"Animal":private]=> string(6) "TheOne" ["proprietaire":"Animal":private]=> string(9) "Lui même" ["espece":"Animal":private]=> string(4) "Dieu" ["cri":"Animal":private]=> NULL ["age":"Animal":private]=> int(99999) } 
+NULL
+```
+
+## Coté design
+
+**3.1 :**: Il est grand temps de rendre cet affichage un peu plus classe. Sur notre page Index, faite afficher un tableau HTML avec les données de nos animaux !
+
+```text
+Vous êtes libre d'utiliser une librairie pour le CSS ou de le coder vous même. 
+```
+
+**3.2 :** Nous allons préparer l'avenir de notre tableau. Pour cela, il faudra ajouter une colonne avec comme entête "Option". Nous pourrons alors pour chaque ligne, ajouté un lien représenté par soit un texte, une icône, un bouton, ... . Ces derniers permettront de modifier ou supprimer un animal !
+
+### Exemple avec Materialize
+
+![Example index](/doc/img/index-tp2-3-2.PNG)
+
+Bien joué si vous êtes toujours en vie jusqu'ici :D
+
+## Coté Bonus (Difficile)
+
+Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de donnée directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
+
+Je vous propose d'essayer de remédier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple.
+
+Celle-ci pourrait charger les informations à l'aide d'un fichier de configuration .ini
+
+Pour vous aiguiller, regarder la doc de la fonction parse_ini_file.
+
+Voici un exemple de fichier dev.ini
+
+```ini
+;config dev
+[DB]
+dsn = 'mysql:host=localhost;dbname=yourdbname;charset=utf8';
+user = 'user';
+pass = 'password';
+```
+
+Ainsi, vous n'aurez qu'à gitignore votre dev.ini et mettre un dev_sample.ini avec des informations standard. L'utilisateur voulant utiliser votre projet n'aura qu'à mettre ses infos ici et renommer le fichier (Très utile pour le partage ou le déploiement)
