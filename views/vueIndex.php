@@ -28,7 +28,12 @@
                 <td><?= $animal->getProprietaire() ?></td>
                 <td><?= $animal->getAge() ?></td>
                 <td><?= $animal->getCri() ?></td>
-                <td> <a href="#"><i class="material-icons">edit</i></a> <a href="#"><i class="material-icons">delete</i></td></a>
+                <td><a href="index.php?page=edit-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
+                        <i class="material-icons">edit</i></a>
+                    <a href="index.php?page=del-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
+                        <i class="material-icons">delete</i></a>
+                </td>
+
             </tr>
         <?php endforeach; ?>
         </tbody>

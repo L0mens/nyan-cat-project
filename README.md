@@ -354,14 +354,27 @@ Par exemple : index.php?page=updateAnimal&idAnimal=5 -> On voudra donc la page u
 
 **1.1 :** Vous allez devoir créer un menu avec des liens. (Vous avez peut être déjà commencé dans le TP1). Ces liens feront tous références à index.php. Il seront accompagné d'un paramètre que nous appelleront page.
 
-Pour le moment, nous allons créer 3 liens :
+```text
+Votre menu devrait apparaitre sur toute les pages
+```
 
-- pages = addAnimal
-- pages = addProprietaire
-- pages = editAnimal
+Pour le moment, nous allons créer 4 liens :
+
+- pages = add-animal
+- pages = add-proprietaire
+- pages = search
+- un lien vers index sans page pour retourner sur l'index
 
 ```text
 Vous êtes libre du style CSS de votre menu,
 mais celui-ci devrait avoir du sens
 ```
 
+**1.2 :** Si vous vous souvenez, au TP 2, vous avez ajouté une colonne avec des actions à coté de vos animaux. Pour chaque lignes, vous ajouterez un lien (qui peut être un bouton, une icone, un texte, ...) avec les cibles suivante :
+
+- pages = edit-animal & idAnimal = *l'id de l'animal*
+- pages = del-animal & idAnimal = *l'id de l'animal*
+
+N'hésitez à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
+
+Normalement, si tout est correct, vos liens ramènes tous sur la page actuelle. Seul l'url devrait changer.

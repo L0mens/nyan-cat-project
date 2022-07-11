@@ -24,7 +24,7 @@
     <a href="index.php?page=add-animal" id="nav-add-animal" class="flex-child nav-hover">
         Ajouter un animal
     </a>
-    <a href="index.php?page=add-propio" id="nav-add-propio" class="flex-child nav-hover">
+    <a href="index.php?page=add-propietaire" id="nav-add-propio" class="flex-child nav-hover">
         Ajouter un proprio
     </a>
     <a href="index.php?page=search" id="nav-search" class="flex-child nav-hover">
