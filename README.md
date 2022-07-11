@@ -339,3 +339,29 @@ pass = 'password';
 ```
 
 Ainsi, vous n'aurez qu'à gitignore votre dev.ini et mettre un dev_sample.ini avec des informations standard. L'utilisateur voulant utiliser votre projet n'aura qu'à mettre ses infos ici et renommer le fichier (Très utile pour le partage ou le déploiement)
+
+# PHP TP3 -  Naviguer entre les pages moussaillons
+
+Nous affichons notre page d'accueil ! Mais nous sommes encore bien statiques. Il est grand temps de pouvoir naviguer entre nos pages !
+
+Petit point théorique : Nous pourrions naviguer entre des pages PHP genre index.php puis addAnimal.php etc etc. Ce n'est pas vraiment le comportement que nous voudrions. Voici le comportement voulu.
+
+index.php -> regarder les paramettres url (surtout pages par exemples) -> Suivant ce paramètre, on choisis la fonction du controlleur qui correspond -> Celui génère la vue (avec accès au model si besoin).
+
+Par exemple : index.php?page=updateAnimal&idAnimal=5 -> On voudra donc la page updateAnimal avec comme info l'idAnimal 5 (qui nous permettrais de pré-remplir un formulaire).
+
+## 1 - Ajouter des liens dans la page
+
+**1.1 :** Vous allez devoir créer un menu avec des liens. (Vous avez peut être déjà commencé dans le TP1). Ces liens feront tous références à index.php. Il seront accompagné d'un paramètre que nous appelleront page.
+
+Pour le moment, nous allons créer 3 liens :
+
+- pages = addAnimal
+- pages = addProprietaire
+- pages = editAnimal
+
+```text
+Vous êtes libre du style CSS de votre menu,
+mais celui-ci devrait avoir du sens
+```
+
