@@ -413,4 +413,17 @@ Si vous cliquez sur votre lien d'ajout d'animal, cela devrait changer de page !
 
 Si tout s'est bien passé, vous devriez pouvoir naviger dans votre site (n'oubliez pas d'avoir un moyen de revenir à l'index dans votre gabarit !!)
 
+## 3 : Construire nos pages
 
+**3.1 :** Vous avez peut être remarqué, mais il y a des pages qu'on risque de ne pas vraiment utiliser. Il me semble que quand on clique sur supprimer un animal, veut-on vraiment changer de page ? Je ne pense plutot qu'une suppression simple serait plus approprié !
+
+J'ajouterais que modifier un animal c'est presque en ajouter un avec des informations qu'on aurait déjà !
+
+Comme vous l'avez compris, nous ne nous serviront pas des vue DelAnimal ni de EditAnimal ! Mais vous pouvez les garder pour le moment ! Car les routes nous serviront quand nous devrons faire des actions php !
+
+**3.2 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de donnée. A vous de jouer !
+
+```text
+Comme toujours, un peu de CSS serait appréciable 
+(Qui a dis évaluable :o ?)
+```
