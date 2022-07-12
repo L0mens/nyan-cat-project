@@ -378,3 +378,39 @@ mais celui-ci devrait avoir du sens
 N'hésitez à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
 
 Normalement, si tout est correct, vos liens ramènes tous sur la page actuelle. Seul l'url devrait changer.
+
+## Afficher différentes pages suivant l'url
+
+**2.1 :**  Notre objectif, pour commencer, sera de créer des pages ultra simple juste pour attester que le changement fonctionne. Pour cela, travaillons dans notre dossier views. 
+
+Créez les différents fichier php qui correspondront aux vue suivantes :
+
+- add-animal (vueAddAnimal.php)
+- add-proprietaire (vueAddProprietaire.php)
+- search
+- edit-animal
+- del-animal
+
+Ces fichiers ne contiendront qu'un H1 qui exprime leur nom (ce qui nous permettra de vérifier que nous sommes sur la bonne page).
+
+**2.2 :** Il est temps de nous attaquer à l'aiguillage qui indiquera quelle fichier générer, le routeur ! Si vous vous souvenez, c'est notre fichier index.php qui nous sert de routeur. Et nous resteront comme cela pour le moment.
+
+Actuellement, nous ne faisont que charger notre MainControlleur puis appeler sa méthode Index. Hors, ce comportement serait uniquement celui par défaut, c'est à dire sans infos sur la page demandé. En restant simple, avec une structure if/else, nous pouvons regarder la valeur dans la variable page ($_GET sera votre ami !) si elle existe évidemment ;).
+
+Testez les différentes valeurs attendu (vous pouvez laisser les corps des if/else if vides) et appeler Index dans le else.
+
+Si tout fonctionne, rien ne devrait changer.
+
+**2.3 :** Il est temps d'ajouter un routage complet ! Prenons add-animal par exemple. Nous pouvons avoir un AnimalController qui gère tout ce qui traite des animaux directement.
+
+Créez donc une fonction displayAddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez à regarder comment générer la View dans la fonction Index de MainController.
+
+Puis pour terminer, instanciez votre AnimalController dans index.php, puis appelez displayAddAnimal() dans le if correspondant.
+
+Si vous cliquez sur votre lien d'ajout d'animal, cela devrait changer de page !
+
+**2.4 :** Nous arrivons à nos fins ! Il est temps de faire la même chose pour les différentes pages. Search devrait utiliser le MainController vu qu'elle est générique. AddPropriétaire pourrait avoir son propre controlleur. 
+
+Si tout s'est bien passé, vous devriez pouvoir naviger dans votre site (n'oubliez pas d'avoir un moyen de revenir à l'index dans votre gabarit !!)
+
+
