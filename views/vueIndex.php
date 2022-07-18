@@ -28,9 +28,9 @@
                 <td><?= $animal->getProprietaire() ?></td>
                 <td><?= $animal->getAge() ?></td>
                 <td><?= $animal->getCri() ?></td>
-                <td><a href="index.php?page=edit-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
+                <td><a href="index.php?action=edit-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
                         <i class="material-icons">edit</i></a>
-                    <a href="index.php?page=del-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
+                    <a href="index.php?action=del-animal&idAnimal=<?= $animal->getIdAnimal() ?>">
                         <i class="material-icons">delete</i></a>
                 </td>
 

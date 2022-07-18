@@ -21,7 +21,7 @@ class MainController{
 
     }
 
-    public function displaySearchPage(){
+    public function Search(){
         $addAniView = new View('Search');
         $addAniView->generer([]);
     }

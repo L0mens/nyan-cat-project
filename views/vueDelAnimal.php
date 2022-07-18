@@ -1,1 +1,0 @@
-<h1> Vue Delete Animal </h1>

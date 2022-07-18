@@ -10,13 +10,19 @@ class AnimalController {
         $addAniView->generer([]);
     }
 
-    public function displayEditAnimal() : void {
-        $addAniView = new View('EditAnimal');
+    public function EditAnimal() : void {
+        $addAniView = new View('AddAnimal');
         $addAniView->generer([]);
     }
 
-    public function displayDeleteAnimal() : void {
-        $addAniView = new View('DelAnimal');
-        $addAniView->generer([]);
+    public function DeleteAnimal() : void {
+        $manager = new AnimalManager();
+        $listAnimals = $manager->getAll();
+        $firstAni = $manager->getByID(1);
+        $other = $manager->getByID(10);
+        $message = "Animal suppr";
+
+        $indexView = new View('Index');
+        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "first" => $firstAni, "other" => $other, "message" => $message]);
     }
 }

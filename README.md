@@ -348,11 +348,11 @@ Petit point théorique : Nous pourrions naviguer entre des pages PHP genre index
 
 index.php -> regarder les paramettres url (surtout pages par exemples) -> Suivant ce paramètre, on choisis la fonction du controlleur qui correspond -> Celui génère la vue (avec accès au model si besoin).
 
-Par exemple : index.php?page=updateAnimal&idAnimal=5 -> On voudra donc la page updateAnimal avec comme info l'idAnimal 5 (qui nous permettrais de pré-remplir un formulaire).
+Par exemple : index.php?action=updateAnimal&idAnimal=5 -> On voudra donc faire l'action updateAnimal avec comme info l'idAnimal 5 (qui nous permettrais de pré-remplir un formulaire).
 
 ## 1 - Ajouter des liens dans la page
 
-**1.1 :** Vous allez devoir créer un menu avec des liens. (Vous avez peut être déjà commencé dans le TP1). Ces liens feront tous références à index.php. Il seront accompagné d'un paramètre que nous appelleront page.
+**1.1 :** Vous allez devoir créer un menu avec des liens. (Vous avez peut être déjà commencé dans le TP1). Ces liens feront tous références à index.php. Il seront accompagné d'un paramètre que nous appelleront action.
 
 ```text
 Votre menu devrait apparaitre sur toute les pages
@@ -360,9 +360,9 @@ Votre menu devrait apparaitre sur toute les pages
 
 Pour le moment, nous allons créer 4 liens :
 
-- pages = add-animal
-- pages = add-proprietaire
-- pages = search
+- action = add-animal
+- action = add-proprietaire
+- action = search
 - un lien vers index sans page pour retourner sur l'index
 
 ```text
@@ -372,8 +372,8 @@ mais celui-ci devrait avoir du sens
 
 **1.2 :** Si vous vous souvenez, au TP 2, vous avez ajouté une colonne avec des actions à coté de vos animaux. Pour chaque lignes, vous ajouterez un lien (qui peut être un bouton, une icone, un texte, ...) avec les cibles suivante :
 
-- pages = edit-animal & idAnimal = *l'id de l'animal*
-- pages = del-animal & idAnimal = *l'id de l'animal*
+- action = edit-animal & idAnimal = *l'id de l'animal*
+- action = del-animal & idAnimal = *l'id de l'animal*
 
 N'hésitez à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
 
@@ -381,15 +381,13 @@ Normalement, si tout est correct, vos liens ramènes tous sur la page actuelle. 
 
 ## Afficher différentes pages suivant l'url
 
-**2.1 :**  Notre objectif, pour commencer, sera de créer des pages ultra simple juste pour attester que le changement fonctionne. Pour cela, travaillons dans notre dossier views. 
+**2.1 :**  Notre objectif, pour commencer, sera de créer des pages ultra simple juste pour attester que le changement fonctionne. Pour cela, travaillons dans notre dossier views.
 
 Créez les différents fichier php qui correspondront aux vue suivantes :
 
 - add-animal (vueAddAnimal.php)
 - add-proprietaire (vueAddProprietaire.php)
 - search
-- edit-animal
-- del-animal
 
 Ces fichiers ne contiendront qu'un H1 qui exprime leur nom (ce qui nous permettra de vérifier que nous sommes sur la bonne page).
 
@@ -403,27 +401,29 @@ Si tout fonctionne, rien ne devrait changer.
 
 **2.3 :** Il est temps d'ajouter un routage complet ! Prenons add-animal par exemple. Nous pouvons avoir un AnimalController qui gère tout ce qui traite des animaux directement.
 
-Créez donc une fonction displayAddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez à regarder comment générer la View dans la fonction Index de MainController.
+Créez donc une fonction AddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez à regarder comment générer la View dans la fonction Index de MainController.
 
-Puis pour terminer, instanciez votre AnimalController dans index.php, puis appelez displayAddAnimal() dans le if correspondant.
+Puis pour terminer, instanciez votre AnimalController dans index.php, puis appelez AddAnimal() dans le if correspondant.
 
 Si vous cliquez sur votre lien d'ajout d'animal, cela devrait changer de page !
 
-**2.4 :** Nous arrivons à nos fins ! Il est temps de faire la même chose pour les différentes pages. Search devrait utiliser le MainController vu qu'elle est générique. AddPropriétaire pourrait avoir son propre controlleur. 
+**2.4 :** Nous arrivons à nos fins ! Il est temps de faire la même chose pour les différentes pages. Search devrait utiliser le MainController vu qu'elle est générique. AddPropriétaire pourrait avoir son propre controlleur.
 
 Si tout s'est bien passé, vous devriez pouvoir naviger dans votre site (n'oubliez pas d'avoir un moyen de revenir à l'index dans votre gabarit !!)
 
+**2.5 :** Vous avez peut être remarqué, mais il y a des actions qui n'ont pas de pages. Celle-ci ont pour vocation une action (supprimer un animal par exemple) puis de rediriger vers une page (exemple : l'index). Il nous reste donc à gérer les actions update et delete.
+
+Pour le moment, Delete ne fera que rediriger vers l'accueil. Petite différence cependant, quand la vue sera générée, elle prendra un paramètre en plus dans son Array de variable. Celle-ci s'appelelrais message et contiendrait un texte qui confirme la suppression.
+
+Pour Update, elle redirigera sur la page d'ajout animal. Elle aura juste accès en données GET à l'ID de l'animal, ce qui permettra plus tard de faire la différence entre ajout & update dans le formulaire
+
 ## 3 : Construire nos pages
 
-**3.1 :** Vous avez peut être remarqué, mais il y a des pages qu'on risque de ne pas vraiment utiliser. Il me semble que quand on clique sur supprimer un animal, veut-on vraiment changer de page ? Je ne pense plutot qu'une suppression simple serait plus approprié !
-
-J'ajouterais que modifier un animal c'est presque en ajouter un avec des informations qu'on aurait déjà !
-
-Comme vous l'avez compris, nous ne nous serviront pas des vue DelAnimal ni de EditAnimal ! Mais vous pouvez les garder pour le moment ! Car les routes nous serviront quand nous devrons faire des actions php !
-
-**3.2 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de donnée. A vous de jouer !
+**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de donnée. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !)
 
 ```text
 Comme toujours, un peu de CSS serait appréciable 
 (Qui a dis évaluable :o ?)
 ```
+
+**3.2 :** La page d'ajout du propriétaire est très similaire a celle d'ajout d'animal. Un simple formulaire. Mais comme nous n'avons pas encore défini de modèle, un simple champs texte pour son nom suffira ;).

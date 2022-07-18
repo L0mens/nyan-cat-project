@@ -9,20 +9,20 @@ $ctrl = new MainController();
 $aniCtrl = new AnimalController();
 $proprioCtrl = new ProprietaireController();
 
-if(isset($_GET['page'])){
-    if($_GET['page'] == "add-animal"){
+if(isset($_GET['action'])){
+    if($_GET['action'] == "add-animal"){
         $aniCtrl->displayAddAnimal();
     }
-    else if($_GET['page'] == "edit-animal"){
-        $aniCtrl->displayEditAnimal();
+    else if($_GET['action'] == "edit-animal"){
+        $aniCtrl->EditAnimal();
     }
-    else if($_GET['page'] == "del-animal"){
-        $aniCtrl->displayDeleteAnimal();
+    else if($_GET['action'] == "del-animal"){
+        $aniCtrl->DeleteAnimal();
     }
-    else if($_GET['page'] == "search"){
-        $ctrl->displaySearchPage();
+    else if($_GET['action'] == "search"){
+        $ctrl->Search();
     }
-    else if($_GET['page'] == "add-proprietaire"){
+    else if($_GET['action'] == "add-proprietaire"){
         $proprioCtrl->displayAddProprietaire();
     }
     else{
