@@ -201,9 +201,9 @@ En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouto
 
 ## Coté base de données
 
-**1.1 :** Vous devriez avoir accès à une base de donnée MySQL (via grp ou bien XAMPP). Regardez la procédure pour accéder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de donnée. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
+**1.1 :** Vous devriez avoir accès à une base de données MySQL (via grp ou bien XAMPP). Regardez la procédure pour accéder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de données. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
 
-**1.2 :** Nous allons pour le moment nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schéma :
+**1.2 :** Nous allons, pour le moment, nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schéma :
 
 ```mermaid
 erDiagram
@@ -237,7 +237,7 @@ class Model {
 
 Il vous faudra coder la fonction getDB -> Cette fonction à pour but d'instancier un objet PDO avec les infos de connexion dans l'attribut $db s'il n'est pas null. Puis, elle retournera simplement l'attribut $db. N'hésitez à vous référer à votre cours et à la doc pour l'instance de PDO
 
-Pour la fonction execRequest, celle-ci à pour objectif d'exécuter la requête $sql passé en paramètre. Elle pourra être préparée et exécutée avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
+Pour la fonction execRequest, celle-ci à pour objectif d'exécuter la requête $sql passée en paramètre. Elle pourra être préparée et exécutée avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
 
 Un peu d'aide => Voici un exemple de paramètre que notre fonction pourrait recevoir :
 
@@ -320,7 +320,7 @@ Bien joué si vous êtes toujours en vie jusqu'ici :D
 
 ## Coté Bonus (Difficile)
 
-Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de donnée directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
+Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de données directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
 
 Je vous propose d'essayer de remédier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple.
 
@@ -346,7 +346,7 @@ Nous affichons notre page d'accueil ! Mais nous sommes encore bien statiques. Il
 
 Petit point théorique : Nous pourrions naviguer entre des pages PHP genre index.php puis addAnimal.php etc etc. Ce n'est pas vraiment le comportement que nous voudrions. Voici le comportement voulu.
 
-index.php -> regarder les paramettres url (surtout pages par exemples) -> Suivant ce paramètre, on choisis la fonction du controlleur qui correspond -> Celui génère la vue (avec accès au model si besoin).
+index.php -> regarder les parametres url (surtout pages par exemples) -> Suivant ce paramètre, on choisit la fonction du contrôleur qui correspond -> Celui génère la vue (avec accès au model si besoin).
 
 Par exemple : index.php?action=updateAnimal&idAnimal=5 -> On voudra donc faire l'action updateAnimal avec comme info l'idAnimal 5 (qui nous permettrais de pré-remplir un formulaire).
 
@@ -375,7 +375,7 @@ mais celui-ci devrait avoir du sens
 - action = edit-animal & idAnimal = *l'id de l'animal*
 - action = del-animal & idAnimal = *l'id de l'animal*
 
-N'hésitez à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
+N'hésitez pas à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
 
 Normalement, si tout est correct, vos liens ramènes tous sur la page actuelle. Seul l'url devrait changer.
 
@@ -401,7 +401,7 @@ Si tout fonctionne, rien ne devrait changer.
 
 **2.3 :** Il est temps d'ajouter un routage complet ! Prenons add-animal par exemple. Nous pouvons avoir un AnimalController qui gère tout ce qui traite des animaux directement.
 
-Créez donc une fonction AddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez à regarder comment générer la View dans la fonction Index de MainController.
+Créez donc une fonction AddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez pas à regarder comment générer la View dans la fonction Index de MainController.
 
 Puis pour terminer, instanciez votre AnimalController dans index.php, puis appelez AddAnimal() dans le if correspondant.
 
@@ -419,7 +419,7 @@ Pour Update, elle redirigera sur la page d'ajout animal. Elle aura juste accès 
 
 ## 3 : Construire nos pages
 
-**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de donnée. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !)
+**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de données. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !)
 
 ```text
 Comme toujours, un peu de CSS serait appréciable 
