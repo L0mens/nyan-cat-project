@@ -201,9 +201,9 @@ En bonus : Commencez dès maintenant votre CSS en gérant un menu avec des bouto
 
 ## Coté base de données
 
-**1.1 :** Vous devriez avoir accès à une base de donnée MySQL (via grp ou bien XAMPP). Regardez la procédure pour accéder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de donnée. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
+**1.1 :** Vous devriez avoir accès à une base de données MySQL (via grp ou bien XAMPP). Regardez la procédure pour accéder à votre outil PhPMyAdmin. Cela nous servira à administrer la base de données. (PhPMyAdmin n'est pas obligatoire, utiliser un autre moyen comme mysqm-cli, Datagrip ou bien MySQLWorkbench peut très bien fonctionner). Connectez vous à votre SGBD et selectionnez la bonne base de données. Nous sommes prêt à commencer!
 
-**1.2 :** Nous allons pour le moment nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schéma :
+**1.2 :** Nous allons, pour le moment, nous contenter d'une seule entité pour représenter nos animaux. Nous allons donc créer une table qui suit ce schéma :
 
 ```mermaid
 erDiagram
@@ -237,7 +237,7 @@ class Model {
 
 Il vous faudra coder la fonction getDB -> Cette fonction à pour but d'instancier un objet PDO avec les infos de connexion dans l'attribut $db s'il n'est pas null. Puis, elle retournera simplement l'attribut $db. N'hésitez à vous référer à votre cours et à la doc pour l'instance de PDO
 
-Pour la fonction execRequest, celle-ci à pour objectif d'exécuter la requête $sql passé en paramètre. Elle pourra être préparée et exécutée avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
+Pour la fonction execRequest, celle-ci à pour objectif d'exécuter la requête $sql passée en paramètre. Elle pourra être préparée et exécutée avec les $params s'ils existent (👀 $params à une valeur par défaut). Notre fonction retournera le résultat de la fonction execute de PDO (qui est un PDOStatement).
 
 Un peu d'aide => Voici un exemple de paramètre que notre fonction pourrait recevoir :
 
@@ -252,7 +252,7 @@ $commentaires = $this->executerRequete($sql, array($idBillet));
 classDiagram
 direction LR
 class Animal{
-    -int $idAnimal
+    -?int $idAnimal
     -string $nom
     -?string $proprietaire
     -?string $espece
@@ -320,7 +320,7 @@ Bien joué si vous êtes toujours en vie jusqu'ici :D
 
 ## Coté Bonus (Difficile)
 
-Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de donnée directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
+Il y a de grande chance que vous ayez fait votre chaine de connexion à la base de données directement dans votre instance de PDO. Ce qui signifierai une faille de sécurité si votre code source se retrouvait exposé (par exemple sur github).
 
 Je vous propose d'essayer de remédier à ce problème en externalisant ces infos dans un autre fichier qui pourrait être une classe Config par exemple.
 
@@ -339,3 +339,107 @@ pass = 'password';
 ```
 
 Ainsi, vous n'aurez qu'à gitignore votre dev.ini et mettre un dev_sample.ini avec des informations standard. L'utilisateur voulant utiliser votre projet n'aura qu'à mettre ses infos ici et renommer le fichier (Très utile pour le partage ou le déploiement)
+
+# PHP TP3 -  Naviguer entre les pages moussaillons
+
+Nous affichons notre page d'accueil ! Mais nous sommes encore bien statiques. Il est grand temps de pouvoir naviguer entre nos pages !
+
+Petit point théorique : Nous pourrions naviguer entre des pages PHP genre index.php puis addAnimal.php etc etc. Ce n'est pas vraiment le comportement que nous voudrions. Voici le comportement voulu.
+
+index.php -> regarder les parametres url (surtout pages par exemples) -> Suivant ce paramètre, on choisit la fonction du contrôleur qui correspond -> Celui génère la vue (avec accès au model si besoin).
+
+Par exemple : index.php?action=updateAnimal&idAnimal=5 -> On voudra donc faire l'action updateAnimal avec comme info l'idAnimal 5 (qui nous permettrais de pré-remplir un formulaire).
+
+## 1 - Ajouter des liens dans la page
+
+**1.1 :** Vous allez devoir créer un menu avec des liens. (Vous avez peut être déjà commencé dans le TP1). Ces liens feront tous références à index.php. Il seront accompagné d'un paramètre que nous appelleront action.
+
+```text
+Votre menu devrait apparaitre sur toute les pages
+```
+
+Pour le moment, nous allons créer 4 liens :
+
+- action = add-animal
+- action = add-proprietaire
+- action = search
+- un lien vers index sans page pour retourner sur l'index
+
+```text
+Vous êtes libre du style CSS de votre menu,
+mais celui-ci devrait avoir du sens
+```
+
+**1.2 :** Si vous vous souvenez, au TP 2, vous avez ajouté une colonne avec des actions à coté de vos animaux. Pour chaque lignes, vous ajouterez un lien (qui peut être un bouton, une icone, un texte, ...) avec les cibles suivante :
+
+- action = edit-animal & idAnimal = *l'id de l'animal*
+- action = del-animal & idAnimal = *l'id de l'animal*
+
+N'hésitez pas à regarder plus haut l'url que j'ai proposé en exemple pour l'écrire correctement.
+
+Normalement, si tout est correct, vos liens ramènes tous sur la page actuelle. Seul l'url devrait changer.
+
+## Afficher différentes pages suivant l'url
+
+**2.1 :**  Notre objectif, pour commencer, sera de créer des pages ultra simple juste pour attester que le changement fonctionne. Pour cela, travaillons dans notre dossier views.
+
+Créez les différents fichier php qui correspondront aux vue suivantes :
+
+- add-animal (vueAddAnimal.php)
+- add-proprietaire (vueAddProprietaire.php)
+- search
+
+Ces fichiers ne contiendront qu'un H1 qui exprime leur nom (ce qui nous permettra de vérifier que nous sommes sur la bonne page).
+
+**2.2 :** Il est temps de nous attaquer à l'aiguillage qui indiquera quelle fichier générer, le routeur ! Si vous vous souvenez, c'est notre fichier index.php qui nous sert de routeur. Et nous resteront comme cela pour le moment.
+
+Actuellement, nous ne faisont que charger notre MainControlleur puis appeler sa méthode Index. Hors, ce comportement serait uniquement celui par défaut, c'est à dire sans infos sur la page demandé. En restant simple, avec une structure if/else, nous pouvons regarder la valeur dans la variable page ($_GET sera votre ami !) si elle existe évidemment ;).
+
+Testez les différentes valeurs attendu (vous pouvez laisser les corps des if/else if vides) et appeler Index dans le else.
+
+Si tout fonctionne, rien ne devrait changer.
+
+**2.3 :** Il est temps d'ajouter un routage complet ! Prenons add-animal par exemple. Nous pouvons avoir un AnimalController qui gère tout ce qui traite des animaux directement.
+
+Créez donc une fonction AddAnimal() dans le controleur. Celle-ci n'aura pour but que d'afficher notre page AddAnimal. N'hésitez pas à regarder comment générer la View dans la fonction Index de MainController.
+
+Puis pour terminer, instanciez votre AnimalController dans index.php, puis appelez AddAnimal() dans le if correspondant.
+
+Si vous cliquez sur votre lien d'ajout d'animal, cela devrait changer de page !
+
+**2.4 :** Nous arrivons à nos fins ! Il est temps de faire la même chose pour les différentes pages. Search devrait utiliser le MainController vu qu'elle est générique. AddPropriétaire pourrait avoir son propre controlleur.
+
+Si tout s'est bien passé, vous devriez pouvoir naviger dans votre site (n'oubliez pas d'avoir un moyen de revenir à l'index dans votre gabarit !!)
+
+**2.5 :** Vous avez peut être remarqué, mais il y a des actions qui n'ont pas de pages. Celle-ci ont pour vocation une action (supprimer un animal par exemple) puis de rediriger vers une page (exemple : l'index). Il nous reste donc à gérer les actions update et delete.
+
+Pour le moment, Delete ne fera que rediriger vers l'accueil. Petite différence cependant, quand la vue sera générée, elle prendra un paramètre en plus dans son Array de variable. Celle-ci s'appelelrais message et contiendrait un texte qui confirme la suppression.
+
+Pour Update, elle redirigera sur la page d'ajout animal. Elle aura juste accès en données GET à l'ID de l'animal, ce qui permettra plus tard de faire la différence entre ajout & update dans le formulaire
+
+## 3 : Construire nos pages
+
+**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de données. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !).
+
+```text
+Comme toujours, un peu de CSS serait appréciable 
+(Qui a dis évaluable :o ?)
+```
+
+**3.2 :** La page d'ajout du propriétaire est très similaire à celle d'un animal. Un simple formulaire. Mais comme nous n'avons pas encore défini de modèle, un simple champs texte pour son nom suffira ;).
+
+**3.3 :** Il nous reste la page de recherche. Celle-ci sera composé d'un champs texte et d'un select qui permettra de choisir le champs sur lequel on fait la recherche. Le plus optimal serait d'avoir les options de ce select qui dépendent directement des propriétés de notre classe Animal. Comme cela, en cas de changement, nous n'aurions pas à changer notre code.
+
+Si vous avez besoin d'un peu d'aide, voici un moyen d'optenir les propriétés d'une classe => [Manuel](https://www.php.net/manual/en/reflectionclass.getproperties.php)
+
+```text
+Ne focalisez pas tout votre temps dessus. Si cela vous paraît trop compliqué, mettez les champs en dur pour le moment et revenez y s'il vous reste du temps à la fin.
+```
+
+**3.4 :** Pour finir, petit nettoyage des var_dump qui traineraient sur votre site. Puis n'hésitez pas à travaillez un peu le design de vos pages/formulaires.
+
+## 4 : Conclusion & Bonus
+
+Nous devrions maintenant pouvoir naviguer entre toutes les pages de notre site. Afficher les différents formulaires (qui ne font rien). L'objectif du prochain TP sera justement de mettre en place le CRUD (Create Read Update Delete) de notre animal !
+
+**Bonus :** Imaginons que nous voulions chercher sur plusieurs champs la même valeur (Oui un chat peut faire Miaou comme cri mais aussi s'appeler Miaou ^^), il faudrait rendre notre champs Select apte à avoir plusieurs selections.

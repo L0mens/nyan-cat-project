@@ -3,7 +3,7 @@
 
 class Animal{
 
-    private int $idAnimal;
+    private ?int $idAnimal;
     private string $nom;
     private ?string $proprietaire;
     private ?string $espece;
@@ -11,17 +11,17 @@ class Animal{
     private ?int $age;
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getIdAnimal(): int
+    public function getIdAnimal(): ?int
     {
         return $this->idAnimal;
     }
 
     /**
-     * @param int $idAnimal
+     * @param ?int $idAnimal
      */
-    public function setIdAnimal(int $idAnimal): void
+    public function setIdAnimal(?int $idAnimal): void
     {
         $this->idAnimal = $idAnimal;
     }

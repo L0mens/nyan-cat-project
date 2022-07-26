@@ -20,14 +20,15 @@
     <nav>
     <a href="index.php" id="logo" class="flex-child">
         <img src="https://c.tenor.com/b5KaSeHWOtUAAAAC/nyan-cat-rainbow-cat.gif" alt="nyan cat gif">
+        <span id="header-title">NyanCat Animalerie</span>
     </a>
-    <a href="index.php?page=add-animal" id="nav-add-animal" class="flex-child nav-hover">
+    <a href="index.php?action=add-animal" id="nav-add-animal" class="flex-child nav-hover">
         Ajouter un animal
     </a>
-    <a href="index.php?page=add-propio" id="nav-add-propio" class="flex-child nav-hover">
+    <a href="index.php?action=add-proprietaire" id="nav-add-propio" class="flex-child nav-hover">
         Ajouter un proprio
     </a>
-    <a href="index.php?page=search" id="nav-search" class="flex-child nav-hover">
+    <a href="index.php?action=search" id="nav-search" class="flex-child nav-hover">
         Recherche
     </a>
     </nav>
