@@ -22,8 +22,15 @@ class MainController{
     }
 
     public function Search(){
-        $addAniView = new View('Search');
-        $addAniView->generer([]);
+        $ani_example = new Animal(['nom' => "test"]);
+        $reflect = new ReflectionClass($ani_example);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE);
+        $props_name = [];
+        foreach ($props as $prop){
+            array_push($props_name, $prop->getName());
+        }
+        $serchView = new View('Search');
+        $serchView->generer(["aniField" => $props_name]);
     }
 
 

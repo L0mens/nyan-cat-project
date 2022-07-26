@@ -1,12 +1,8 @@
-<h1>Bienvenue chez <?= $nomAnimalerie ?></h1>
 
-<?php var_dump($listAnimals); ?>
 
-<?php var_dump($first); ?>
-
-<?php var_dump($other); ?>
 <div class="container">
-    <table class="striped centered">
+    <h1>Bienvenue chez <?= $nomAnimalerie ?></h1>
+    <table class="striped centered responsive-table">
         <thead>
         <tr>
             <th>ID</th>

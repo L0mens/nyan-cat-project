@@ -252,7 +252,7 @@ $commentaires = $this->executerRequete($sql, array($idBillet));
 classDiagram
 direction LR
 class Animal{
-    -int $idAnimal
+    -?int $idAnimal
     -string $nom
     -?string $proprietaire
     -?string $espece
@@ -419,11 +419,27 @@ Pour Update, elle redirigera sur la page d'ajout animal. Elle aura juste accès 
 
 ## 3 : Construire nos pages
 
-**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de données. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !)
+**3.1 :** Attaquons donc notre page d'ajout d'animal ! Celle-ci devrait contenir juste un formulaire nous permettant de créer un animal en base de données. A vous de jouer ! (Evidemment, à ce stade, le formulaire ne fera rien !).
 
 ```text
 Comme toujours, un peu de CSS serait appréciable 
 (Qui a dis évaluable :o ?)
 ```
 
-**3.2 :** La page d'ajout du propriétaire est très similaire a celle d'ajout d'animal. Un simple formulaire. Mais comme nous n'avons pas encore défini de modèle, un simple champs texte pour son nom suffira ;).
+**3.2 :** La page d'ajout du propriétaire est très similaire à celle d'un animal. Un simple formulaire. Mais comme nous n'avons pas encore défini de modèle, un simple champs texte pour son nom suffira ;).
+
+**3.3 :** Il nous reste la page de recherche. Celle-ci sera composé d'un champs texte et d'un select qui permettra de choisir le champs sur lequel on fait la recherche. Le plus optimal serait d'avoir les options de ce select qui dépendent directement des propriétés de notre classe Animal. Comme cela, en cas de changement, nous n'aurions pas à changer notre code.
+
+Si vous avez besoin d'un peu d'aide, voici un moyen d'optenir les propriétés d'une classe => [Manuel](https://www.php.net/manual/en/reflectionclass.getproperties.php)
+
+```text
+Ne focalisez pas tout votre temps dessus. Si cela vous paraît trop compliqué, mettez les champs en dur pour le moment et revenez y s'il vous reste du temps à la fin.
+```
+
+**3.4 :** Pour finir, petit nettoyage des var_dump qui traineraient sur votre site. Puis n'hésitez pas à travaillez un peu le design de vos pages/formulaires.
+
+## 4 : Conclusion & Bonus
+
+Nous devrions maintenant pouvoir naviguer entre toutes les pages de notre site. Afficher les différents formulaires (qui ne font rien). L'objectif du prochain TP sera justement de mettre en place le CRUD (Create Read Update Delete) de notre animal !
+
+**Bonus :** Imaginons que nous voulions chercher sur plusieurs champs la même valeur (Oui un chat peut faire Miaou comme cri mais aussi s'appeler Miaou ^^), il faudrait rendre notre champs Select apte à avoir plusieurs selections.

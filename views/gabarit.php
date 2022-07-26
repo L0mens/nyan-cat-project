@@ -20,6 +20,7 @@
     <nav>
     <a href="index.php" id="logo" class="flex-child">
         <img src="https://c.tenor.com/b5KaSeHWOtUAAAAC/nyan-cat-rainbow-cat.gif" alt="nyan cat gif">
+        <span id="header-title">NyanCat Animalerie</span>
     </a>
     <a href="index.php?action=add-animal" id="nav-add-animal" class="flex-child nav-hover">
         Ajouter un animal
