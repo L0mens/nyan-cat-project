@@ -443,3 +443,84 @@ Ne focalisez pas tout votre temps dessus. Si cela vous paraît trop compliqué, 
 Nous devrions maintenant pouvoir naviguer entre toutes les pages de notre site. Afficher les différents formulaires (qui ne font rien). L'objectif du prochain TP sera justement de mettre en place le CRUD (Create Read Update Delete) de notre animal !
 
 **Bonus :** Imaginons que nous voulions chercher sur plusieurs champs la même valeur (Oui un chat peut faire Miaou comme cri mais aussi s'appeler Miaou ^^), il faudrait rendre notre champs Select apte à avoir plusieurs selections.
+
+# PHP TP4 : Gérons l'arche !
+
+Il est grand temps de pouvoir créer, modifier et supprimer des animaux !
+
+## 1 : Et ainsi l'animal est
+
+**1.1 :** Retournons sur notre formulaire d'ajout d'animal. Il est temps de déterminer la methode et l'action dans notre balise form. Comme nous allons créer une donnnée, les recommandation du protocol HTTP tende vers POST. Cella permet d'utiliser la même route que l'affichage du formulaire. Nous n'aurons qu'à regarder si nous avons des données $_POST pour savoir si on doit gérer l'ajout.
+
+```html
+<form action="index.php?action=add-animal" method="post">
+```
+
+```text
+Attention, le formulaire HTML ne peut gérer que les méthodes POST et GET.
+```
+
+Pour exploiter notre formulaire, chaque champs input devra posséder un attribut name. Sa valeur déterminera le nom de notre clé dans $_POST.
+
+**1.2 :** Pour anticiper une erreur dans les données envoyé par le formulaire (donnée incorrect ou champ inexistant), nous allons préparer notre page à accueillir un message d'erreur. 
+
+Dans la fonction displayAddAnimal, il faut ajouter un paramètre optionnel (pour ne passer casser notre code déjà en place) de type ?string à valeur null par défaut.
+
+Celui-ci sera passé à la fonction 'generer' avec une clé nommé "message" par exemple. Cela vous donnera accès à une variable $message dans votre vueAddAnimal. Si celle-ci existe, vous pourrez afficher la valeur de la variable en guise de message d'erreur.
+
+```text
+Comme d'habitude, éviter de juste echo votre message et faite du html/css
+```
+
+**1.3 :** Dans notre controleur Animal, nous allons créer une fonction addAnimal qui aura pour but de :
+
+1. Prendre les infos d'un animal en entrée (Array ou multi variable)
+2. Créer l'animal
+    - Créer une fonction createAnimal(Animal) qui insert un animal en BD dans notre AnimalManager
+    - Récupère l'ID fraichement crée pour l'ajouter à notre Animal passé en paramètre
+    - Retourne l'Animal
+3. Créer un message sur la réussite (ou non) de la création
+4. Génerer une page (Index ou AddAnimal) avec le message
+
+```text
+Pour récupérer l'ID du dernier élement inséré en MySQL, 
+je vous recommande de faire une 2ème requête avec SELECT LAST_INSERT_ID()
+```
+
+**1.4 :** Il est temps de retravailler notre routeur pour gérer les données $_POST envoyé par notre formulaire. N'hésitez pas à var_dump votre $_POST pour identifier comment celui-ci fonctionne.
+
+Il est recommandé de créer un fonction qui retournera la clé dont on à besoin dans l'array passé en paramètre (ici $_POST). Celle-ci pourrait lever une exception si la clé n'est pas trouvé. Celle-ci levera une exception si la clé existe mais que le champs est vide si $canBeEmpty est à false
+
+```php
+function getParam(array $array, string $paramName, bool $canBeEmpty=true)
+```
+
+Il est temps d'implémenter l'algo qui permettra de choisir ce qu'on affiche :
+
+```text
+Si nous avons des données POST
+  -> Récupérer toutes les clés nécessaires
+  -> Si une exception est levée
+    -> Afficher le formulaire avec un message 
+  -> Sinon
+    -> Envoyer les données au controleur
+Sinon
+  -> Afficher le formulaire
+```
+
+
+
+
+## X : Bonus
+
+Il serait agréable de gérer nos messages de façons plus détaillé. Effectivement, nous envoyons un texte et ... puis c'est tout. Ajouter peut être un titre au message et changer sa couleur (via des classes CSS) suivant son contenu (Bleu pour les infos, Rouge pour les erreurs, Vert pour les succès).
+
+Pour éviter la duplication de code, je vous invite à créer un fichier /views/message.php qui se chargera du template du message.
+
+Il ne manquera plus des les inclures dans vos template de page à l'aide d'un simple pour
+
+```php
+<?php include('message.php') ?>
+```
+
+Si l'on veut pousser encore plus loins, au lieu de gérer plusieurs variable, il serait temps de créer une classe Message dans un dossier helpers par exemple ;)

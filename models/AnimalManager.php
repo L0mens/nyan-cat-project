@@ -26,4 +26,14 @@ class AnimalManager extends Model {
         return $ani;
 
     }
+
+    public function createAnimal(Animal $ani) : Animal {
+        $sql = "INSERT INTO animal (nom,espece,cri,proprietaire,age) VALUES (?,?,?,?,?)";
+        $sqlLastID = "SELECT LAST_INSERT_ID()";
+        $this->execRequest($sql, [$ani->getNom(), $ani->getEspece(), $ani->getCri(), $ani->getProprietaire(), $ani->getAge()]);
+        $getId = $this->execRequest($sqlLastID);
+        if($id = $getId->fetch())
+            $ani->setIdAnimal($id[0]);
+        return $ani;
+    }
 }

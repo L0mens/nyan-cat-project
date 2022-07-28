@@ -1,6 +1,7 @@
 
 
 <div class="container">
+    <?php include('message.php')?>
     <h1>Bienvenue chez <?= $nomAnimalerie ?></h1>
     <table class="striped centered responsive-table">
         <thead>
