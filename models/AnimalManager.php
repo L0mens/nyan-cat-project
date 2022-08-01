@@ -40,10 +40,12 @@ class AnimalManager extends Model {
     public function deleteAnimal(int $idAnimal) : int {
         $sql = "DELETE FROM animal where idAnimal = ?";
         $del = $this->execRequest($sql, [$idAnimal]);
-        /* Return number of rows that were deleted */
-        print("Return number of rows that were deleted:\n");
-        $count = $del->rowCount();
-        print("Deleted $count rows.\n");
-        return $count;
+        return $del->rowCount();
+    }
+
+    public function editAnimal(Animal $ani) {
+        $sql = "UPDATE animal set nom = ?,espece = ?,cri = ?,proprietaire = ?,age = ? WHERE idAnimal = ?";
+        $updt = $this->execRequest($sql, [$ani->getNom(), $ani->getEspece(), $ani->getCri(), $ani->getProprietaire(), $ani->getAge(), $ani->getIdAnimal()]);
+        return $updt->rowCount();
     }
 }

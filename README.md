@@ -7,6 +7,17 @@ Vous devrez gérer les actions pour manager vos animaux ainsi que leurs proprié
 Pour ajouter de la structure au projet, nous allons travailler avec un design pattern : Le MVC (Model-View-Controller).
 [Voir détails](https://fr.wikipedia.org/wiki/Modèle-vue-contrôleur)
 
+Voici nos objectifs pour tout le projet : 
+
+- [ ] Afficher la liste des animaux
+- [ ] Ajouter des animaux à la BD
+- [ ] Editer un animal
+- [ ] Supprimer un animal
+- [ ] Rechercher un animal particulier
+- [ ] Gérer un modèle de propriétaire
+- [ ] Avoir un design simple et fonctionnel
+- [ ] Plein de bonus
+
 ## 1 - Mise en place de l'architecture des dossiers
 
 Dans votre dossier de travail (Bureau, Dossier XAMP, ...) vous allez créer un premier fichier index.php
@@ -462,14 +473,14 @@ Attention, le formulaire HTML ne peut gérer que les méthodes POST et GET.
 
 Pour exploiter notre formulaire, chaque champs input devra posséder un attribut name. Sa valeur déterminera le nom de notre clé dans $_POST.
 
-**1.2 :** Pour anticiper une erreur dans les données envoyé par le formulaire (donnée incorrect ou champ inexistant), nous allons préparer notre page à accueillir un message d'erreur. 
+**1.2 :** Pour anticiper une erreur dans les données envoyé par le formulaire (donnée incorrect ou champ inexistant), nous allons préparer notre page à accueillir un message d'erreur.
 
 Dans la fonction displayAddAnimal, il faut ajouter un paramètre optionnel (pour ne passer casser notre code déjà en place) de type ?string à valeur null par défaut.
 
 Celui-ci sera passé à la fonction 'generer' avec une clé nommé "message" par exemple. Cela vous donnera accès à une variable $message dans votre vueAddAnimal. Si celle-ci existe, vous pourrez afficher la valeur de la variable en guise de message d'erreur.
 
 ```text
-Comme d'habitude, éviter de juste echo votre message et faite du html/css
+Comme d'habitude, évitez de juste echo votre message et faite du html/css
 ```
 
 **1.3 :** Dans notre controleur Animal, nous allons créer une fonction addAnimal qui aura pour but de :
@@ -480,7 +491,7 @@ Comme d'habitude, éviter de juste echo votre message et faite du html/css
     - Récupère l'ID fraichement crée pour l'ajouter à notre Animal passé en paramètre
     - Retourne l'Animal
 3. Créer un message sur la réussite (ou non) de la création
-4. Génerer une page (Index ou AddAnimal) avec le message
+4. Génerer une page Index avec le message
 
 ```text
 Pour récupérer l'ID du dernier élement inséré en MySQL, 
@@ -512,6 +523,10 @@ Sinon
 
 **2.1 :** Si vous êtes un bon étudiant qui aime tester les choses pour vérifier que tout fonctionne, vous devriez avoir pléthore d'animaux dans votre BD qui s'appellent Test ou bien le prénom de votre voisin avec l'espèce singe. On va donc préparer la suprression pour clean up un peu tout cela.
 
+```text
+TODO : Implémenter schémas pour visualer la fonctionnalité
+```
+
 Niveau modèle, rien de compliquer, une méthode deleteAnimal(int $idAnimal) à implémenter dans le manager.
 
 ```text
@@ -541,7 +556,7 @@ A vous de jouer pour :
 Il est fort possible que, à ce stade du TP, votre fonction index ne gère pas un message. Si tel est le cas, pour éviter de casser votre code, ajouter un paramètre optionnel à votre méthode index. Puis passez ce paramètre à la fonction 'generer'. 
 ```
 
-**2.3 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée.
+**2.2 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée.
 
 Cette fonction étant plus complexe, nous allons la couper en 2. Pour le moment, objectif afficher le formulaire add-animal rempli des infos de l'animal que l'on veut modifier.
 
@@ -551,16 +566,101 @@ Dans le controleur, nous avons une méthode editAnimal. Nous allons la renommé 
 
 Il ne manquera plus qu'à récupérer l'animal, et générer une vue addAnimal avec l'animal en paramètre
 
-C'est au niveau de la vue que cela devient plus complexe. En vérifiant si un animal a été fourni à la vue, pré remplissez chacun des champs avec sa valeur correspondante. Vous ajouterez un champs caché contenant l'ID qui n'existe pas. Vous pouvez aussi changer l'action du formulaire en edit-animal.
+C'est au niveau de la vue que cela devient plus complexe. En vérifiant si un animal a été fourni à la vue, pré remplissez chacun des champs avec sa valeur correspondante. Vous ajouterez un champs caché contenant l'ID qui n'existe pas. Vous pouvez aussi changer l'action du formulaire en edit-animal ainsi que le titre de la page.
 
 ```text
 Vous le sentez venir, mais oui ! Nous allons faire le même procédé qu'add-animal. C'est en se basant sur la présence ou non de donnée POST que nous savons si nous devons afficher le formulaire ou bien faire l'action (ici update)
 ```
 
-**2.4 :** Maintenant que nous avons préparé le terrain, il est temps de faire l'update a proprement parler.
+```text
+Votre code html parsemé de PhP peut vite devenir illisible ! N'hésitez pas à utiliser l'outil de formatage de votre IDE et de bien indenter votre code !
+```
 
+**2.3 :** Maintenant que nous avons préparé le terrain, il est temps de faire l'update a proprement parler.
 
-## X : Bonus
+Pour ne pas trop compliquer la tache, nous allons update tous les champs d'un coup sans se soucis s'ils ont été modifié ou non (à l'exception de l'id bien évidemment).
+
+Pour le Manager, une fonction editAnimal(Animal $animal) que se chargera de mettre à jour la base de donnée.
+
+Pour le controleur, le process est similaire à ce qu'on à vu avant :
+
+0. On crée notre méthode editAnimal(array $dataAnimal)
+1. On crée notre animal
+2. On l'envoi au manager qui fait l'Update
+3. On génère un message en fonction du résultat
+4. On génère notre vue Index avec le message
+
+```text
+Nous générons beaucoup de fois une page Index. 
+Hors ce code existe déjà dans notre MainController. 
+Il serait bon de s'en servir. 
+N'hésitez pas à utiliser un paramètre de votre AnimalController que vous instanciez dans sa méthode __construct(). 
+Vous pouvez ainsi disposer de ses méthodes et invoquer l'index.
+```
+
+Pour le routeur, après avoir vérifié que nous possedont bien des données POST, nous récupérons ce qui est nécessaire via getParam. Puis, on transmet sous forme d'array à notre controleur.
+
+Et si tout se passe nickel nous devrions avoir un process fonctionnel
+
+```mermaid
+flowchart LR
+  A(Click sur le bouton edit) --> B(Affiche un formulaire pré rempli) 
+  B --> C(Modifie les données) 
+  C --> D(Update dans la BD) 
+  D --> E(Retour sur Index avec un message sur le statut de l'update)
+
+```
+
+## 3 : Recap
+
+Nous avons déjà bien avancé à ce stade. Si tout est fonctionnel, bien codé (#RevoirSonModuleQualité), et avec une pointe de design qui permet de ressembler plus à un site web qu'à une expérientation d'un doctorant, vous pouvez espérer une très correct !
+
+Il est temps de faire le point sur l'avancée. Au niveau de l'architecture du projet, cela devrait ressemblé à cela (Le bonus décrit après est inclu.).
+
+```text
+📦 TonSuperProjet
+ ┣ 📂config
+ ┃ ┣ 📜Config.php
+ ┃ ┗ 📜dev.ini
+ ┣ 📂controllers
+ ┃ ┣ 📜AnimalController.php
+ ┃ ┣ 📜MainController.php
+ ┃ ┗ 📜ProprietaireController.php
+ ┣ 📂helpers
+ ┃ ┗ 📜Message.php
+ ┣ 📂models
+ ┃ ┣ 📜Animal.php
+ ┃ ┣ 📜AnimalManager.php
+ ┃ ┗ 📜Model.php
+ ┣ 📂public
+ ┃ ┣ 📂css
+ ┃ ┃ ┗ 📜main.css
+ ┃ ┗ 📂img
+ ┣ 📂views
+ ┃ ┣ 📜gabarit.php
+ ┃ ┣ 📜message.php
+ ┃ ┣ 📜View.php
+ ┃ ┣ 📜vueAddAnimal.php
+ ┃ ┣ 📜vueAddProprietaire.php
+ ┃ ┣ 📜vueIndex.php
+ ┃ ┗ 📜vueSearch.php
+ ┗ 📜index.php
+```
+
+Evidemment, certains fichiers peuvent différer, comme les noms des fonctions/classes.
+
+Faisons un recap de ce que l'on attends de notre application.
+
+- [x] Afficher la liste des animaux
+- [x] Ajouter des animaux à la BD
+- [x] Editer un animal
+- [x] Supprimer un animal
+- [ ] Rechercher un animal particulier
+- [ ] Gérer un modèle de propriétaire
+- [x] Avoir un design simple et fonctionnel
+- [ ] Plein de bonus
+
+## 4 : Bonus
 
 Il serait agréable de gérer nos messages de façons plus détaillé. Effectivement, nous envoyons un texte et ... puis c'est tout. Ajouter peut être un titre au message et changer sa couleur (via des classes CSS) suivant son contenu (Bleu pour les infos, Rouge pour les erreurs, Vert pour les succès).
 

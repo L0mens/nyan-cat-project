@@ -49,7 +49,35 @@ if (isset($_GET['action'])) {
 
 
     } else if ($_GET['action'] == "edit-animal") {
-        $aniCtrl->EditAnimal();
+        if(empty($_POST)){
+            try {
+                $idAni = getParam($_GET, "idAnimal");
+                $aniCtrl->displayEditAnimal($idAni);
+            }catch (Exception $e){
+                $err = $e->getMessage(). "\n";
+                $mess = new Message($err, Message::MESSAGE_COLOR_ERROR, "Erreur");
+                $ctrl->index($mess);
+            }
+        }
+        else{
+            try{
+                $dataAnimal = [
+                    "nom" => getParam($_POST, "animal-nom", false),
+                    "proprietaire" => getParam($_POST, "animal-proprietaire"),
+                    "espece" => getParam($_POST, "animal-espece"),
+                    "cri" => getParam($_POST, "animal-cri"),
+                    "age" => intval(getParam($_POST, "animal-age")),
+                    "idAnimal" => intval(getParam($_POST, "animal-id"))
+                ];
+                $aniCtrl->editAnimal($dataAnimal);
+            }
+            catch (Exception $e){
+                $err = $e->getMessage(). "\n";
+                $mess = new Message($err, Message::MESSAGE_COLOR_ERROR, "Erreur");
+                $ctrl->index($mess);
+            }
+        }
+
     } else if ($_GET['action'] == "del-animal") {
         try{
             $idAni = getParam($_GET, "idAnimal");

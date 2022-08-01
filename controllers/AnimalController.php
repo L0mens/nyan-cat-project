@@ -6,7 +6,11 @@ require_once 'helpers/Message.php';
 
 class AnimalController {
 
+    private MainController $mainCtrl;
 
+    public function __construct(){
+        $this->mainCtrl = new MainController();
+    }
 
     public function displayAddAnimal(?string $message = null) : void {
         $mes = null;
@@ -27,20 +31,37 @@ class AnimalController {
             $message->setTitle("Erreur création");
             $message->setColor(Message::MESSAGE_COLOR_ERROR);
         }
-        $addAniView = new View('AddAnimal');
-        $addAniView->generer(["message" => $message]);
+        $this->mainCtrl->index($message);
     }
 
-    public function editAnimal() : void {
-        $addAniView = new View('AddAnimal');
-        $addAniView->generer([]);
+    public function displayEditAnimal(int $idAnimal) : void {
+        $manager = new AnimalManager();
+        $animal = $manager->getByID($idAnimal);
+        $message = null;
+        if(empty($animal)) {
+            $message = new Message("L'animal ID ".$idAnimal." n'a pas été trouvé", Message::MESSAGE_COLOR_ERROR, "Erreur");
+        }
+
+        $view = new View('AddAnimal');
+        $view->generer(["animal" => $animal, "message" => $message]);
+    }
+
+    public function editAnimal(array $dataAnimal){
+        $manager = new AnimalManager();
+        $animal = new Animal($dataAnimal);
+        $count = $manager->editAnimal($animal);
+        if($count > 0)
+            $message = new Message("Animal ID ".$animal->getIdAnimal()." modifié", Message::MESSAGE_COLOR_SUCCESS, "Modification");
+        else
+            $message = new Message("La modification à rencontré un problème", Message::MESSAGE_COLOR_ERROR, "Modification");
+
+        $this->mainCtrl->index($message);
     }
 
     public function deleteAnimalAndIndex(int $idAnimal = -1) : void {
         $manager = new AnimalManager();
 
         if($idAnimal > -1){
-            var_dump($idAnimal);
             $count = $manager->deleteAnimal($idAnimal);
             if($count > 0)
                 $message = new Message("Animal supprimé", Message::MESSAGE_COLOR_SUCCESS, "Suppression");
@@ -51,9 +72,6 @@ class AnimalController {
             $message = new Message("ID de l'animal non fourni", Message::MESSAGE_COLOR_ERROR, "Suppression");
         }
 
-        $listAnimals = $manager->getAll();
-
-        $indexView = new View('Index');
-        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "message" => $message]);
+        $this->mainCtrl->index($message);
     }
 }
