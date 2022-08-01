@@ -543,6 +543,22 @@ Il est fort possible que, à ce stade du TP, votre fonction index ne gère pas u
 
 **2.3 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée.
 
+Cette fonction étant plus complexe, nous allons la couper en 2. Pour le moment, objectif afficher le formulaire add-animal rempli des infos de l'animal que l'on veut modifier.
+
+Dans le routeur, le procédé se déroule comme la fonction de delete.
+
+Dans le controleur, nous avons une méthode editAnimal. Nous allons la renommé en displayEditAnimal vu que celle-ci ne fera qu'afficher le formulaire rempli. elle aura besoin de l'id de l'animal en paramètre.
+
+Il ne manquera plus qu'à récupérer l'animal, et générer une vue addAnimal avec l'animal en paramètre
+
+C'est au niveau de la vue que cela devient plus complexe. En vérifiant si un animal a été fourni à la vue, pré remplissez chacun des champs avec sa valeur correspondante. Vous ajouterez un champs caché contenant l'ID qui n'existe pas. Vous pouvez aussi changer l'action du formulaire en edit-animal.
+
+```text
+Vous le sentez venir, mais oui ! Nous allons faire le même procédé qu'add-animal. C'est en se basant sur la présence ou non de donnée POST que nous savons si nous devons afficher le formulaire ou bien faire l'action (ici update)
+```
+
+**2.4 :** Maintenant que nous avons préparé le terrain, il est temps de faire l'update a proprement parler.
+
 
 ## X : Bonus
 

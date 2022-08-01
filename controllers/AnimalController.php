@@ -31,7 +31,7 @@ class AnimalController {
         $addAniView->generer(["message" => $message]);
     }
 
-    public function EditAnimal() : void {
+    public function editAnimal() : void {
         $addAniView = new View('AddAnimal');
         $addAniView->generer([]);
     }
