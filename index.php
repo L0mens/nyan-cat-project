@@ -37,7 +37,7 @@ if (isset($_GET['action'])) {
                     "cri" => getParam($_POST, "animal-cri"),
                     "age" => intval(getParam($_POST, "animal-age"))
                 ];
-                $aniCtrl->AddAnimal($dataAnimal);
+                $aniCtrl->addAnimal($dataAnimal);
             }
             catch (Exception $e){
                 $err = $e->getMessage(). "\n";
@@ -51,16 +51,24 @@ if (isset($_GET['action'])) {
     } else if ($_GET['action'] == "edit-animal") {
         $aniCtrl->EditAnimal();
     } else if ($_GET['action'] == "del-animal") {
-        $aniCtrl->DeleteAnimal();
+        try{
+            $idAni = getParam($_GET, "idAnimal");
+            $aniCtrl->deleteAnimalAndIndex($idAni);
+        }
+        catch (Exception $e){
+            $err = $e->getMessage(). "\n";
+            $mess = new Message($err, Message::MESSAGE_COLOR_ERROR, "Erreur");
+            $ctrl->index($mess);
+        }
     } else if ($_GET['action'] == "search") {
-        $ctrl->Search();
+        $ctrl->search();
     } else if ($_GET['action'] == "add-proprietaire") {
         $proprioCtrl->displayAddProprietaire();
     } else {
-        $ctrl->Index();
+        $ctrl->index();
     }
 } else {
-    $ctrl->Index();
+    $ctrl->index();
 }
 
 

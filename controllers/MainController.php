@@ -10,18 +10,16 @@ class MainController{
 
     }
 
-    public function Index() : void {
+    public function index(Message $message = null) : void {
         $manager = new AnimalManager();
         $listAnimals = $manager->getAll();
-        $firstAni = $manager->getByID(1);
-        $other = $manager->getByID(10);
 
         $indexView = new View('Index');
-        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "first" => $firstAni, "other" => $other]);
+        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "message" => $message]);
 
     }
 
-    public function Search(){
+    public function search(){
         $ani_example = new Animal(['nom' => "test"]);
         $reflect = new ReflectionClass($ani_example);
         $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE);

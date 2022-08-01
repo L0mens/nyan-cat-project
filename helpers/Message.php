@@ -1,6 +1,10 @@
 <?php
 
 class Message {
+
+    const MESSAGE_COLOR_SUCCESS = "green lighten-2";
+    const MESSAGE_COLOR_ERROR = "red lighten-2";
+
     private string $message;
     private string $color;
     private string $title;

@@ -508,7 +508,40 @@ Sinon
   -> Afficher le formulaire
 ```
 
+## 2 : Et maintenant l'animal changera ou ne sera point
 
+**2.1 :** Si vous êtes un bon étudiant qui aime tester les choses pour vérifier que tout fonctionne, vous devriez avoir pléthore d'animaux dans votre BD qui s'appellent Test ou bien le prénom de votre voisin avec l'espèce singe. On va donc préparer la suprression pour clean up un peu tout cela.
+
+Niveau modèle, rien de compliquer, une méthode deleteAnimal(int $idAnimal) à implémenter dans le manager.
+
+```text
+Envie de savoir si la supression s'est bien passé ? Regardez du coté de PDOStatement::rowCount() pour vous aidez.
+```
+
+Niveau contrôleur, une méthode (soyons explicite) deleteAnimalAndIndex(int $idAnimal). Comme son nom l'indique, on supprime l'animal (coucou le manager) puis on génère une vue Index avec un message (Suppression réussie ou non).
+
+```text
+Si vous vous souvenez, cette fonction a déjà été créée au TP3 Q2.5. Elle aura peut être un nom différent. Ce n'est pas un problème, tant que vous restez cohérent dans votre programme (vous pouvez aussi la renommer dans tout votre projet !) 
+```
+
+Puis niveau routeur, vous devriez avoir créé le bouton supprimer qui doit avoir un lien de cette forme
+
+```html
+index.php?action=del-animal&idAnimal=1
+```
+
+A vous de jouer pour :
+
+1. Traiter l'action
+2. Récupérer l'id depuis l'url (*hint* Les infos de l'url sont passé par la méthode GET)
+3. En cas d'erreur (l'url ne contient pas la donné par exemple), afficher l'index avec un message
+4. Call votre super méthode du contrôleur.
+
+```text
+Il est fort possible que, à ce stade du TP, votre fonction index ne gère pas un message. Si tel est le cas, pour éviter de casser votre code, ajouter un paramètre optionnel à votre méthode index. Puis passez ce paramètre à la fonction 'generer'. 
+```
+
+**2.3 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée.
 
 
 ## X : Bonus

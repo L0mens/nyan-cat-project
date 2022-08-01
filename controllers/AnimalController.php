@@ -6,6 +6,8 @@ require_once 'helpers/Message.php';
 
 class AnimalController {
 
+
+
     public function displayAddAnimal(?string $message = null) : void {
         $mes = null;
         if($message)
@@ -14,16 +16,16 @@ class AnimalController {
         $addAniView->generer(["message" => $mes]);
     }
 
-    public function AddAnimal(array $aniData) : void {
+    public function addAnimal(array $aniData) : void {
         $manager = new AnimalManager();
         $ani = new Animal($aniData);
         $ani = $manager->createAnimal($ani);
 
-        $message = new Message("L'animal ID ".$ani->getIdAnimal()." du nom de " . $ani->getNom() . " a été créé", "green lighten-2", "Création");
+        $message = new Message("L'animal ID ".$ani->getIdAnimal()." du nom de " . $ani->getNom() . " a été créé", Message::MESSAGE_COLOR_SUCCESS, "Création");
         if(empty($ani->getIdAnimal())) {
             $message->setMessage("Une erreur est survenue lors de la création de l'animal");
             $message->setTitle("Erreur création");
-            $message->setColor("red lighten-2");
+            $message->setColor(Message::MESSAGE_COLOR_ERROR);
         }
         $addAniView = new View('AddAnimal');
         $addAniView->generer(["message" => $message]);
@@ -34,14 +36,24 @@ class AnimalController {
         $addAniView->generer([]);
     }
 
-    public function DeleteAnimal() : void {
+    public function deleteAnimalAndIndex(int $idAnimal = -1) : void {
         $manager = new AnimalManager();
+
+        if($idAnimal > -1){
+            var_dump($idAnimal);
+            $count = $manager->deleteAnimal($idAnimal);
+            if($count > 0)
+                $message = new Message("Animal supprimé", Message::MESSAGE_COLOR_SUCCESS, "Suppression");
+            else
+                $message = new Message("La suppression à rencontré un problème", Message::MESSAGE_COLOR_ERROR, "Suppression");
+        }
+        else{
+            $message = new Message("ID de l'animal non fourni", Message::MESSAGE_COLOR_ERROR, "Suppression");
+        }
+
         $listAnimals = $manager->getAll();
-        $firstAni = $manager->getByID(1);
-        $other = $manager->getByID(10);
-        $message = "Animal suppr";
 
         $indexView = new View('Index');
-        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "first" => $firstAni, "other" => $other, "message" => $message]);
+        $indexView->generer(['nomAnimalerie' => "NyanCat", "listAnimals" => $listAnimals, "message" => $message]);
     }
 }
