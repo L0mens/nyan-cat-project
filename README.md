@@ -7,7 +7,7 @@ Vous devrez gérer les actions pour manager vos animaux ainsi que leurs proprié
 Pour ajouter de la structure au projet, nous allons travailler avec un design pattern : Le MVC (Model-View-Controller).
 [Voir détails](https://fr.wikipedia.org/wiki/Modèle-vue-contrôleur)
 
-Voici nos objectifs pour tout le projet : 
+Voici nos objectifs pour tout le projet :
 
 - [ ] Afficher la liste des animaux
 - [ ] Ajouter des animaux à la BD
@@ -459,6 +459,13 @@ Nous devrions maintenant pouvoir naviguer entre toutes les pages de notre site. 
 
 Il est grand temps de pouvoir créer, modifier et supprimer des animaux !
 
+```text
+Durant tout le TP, vous allez voir apparaitre la notion de message. 
+Ceci implique de retourner une information à l'utilisateur sur comment s'est déroulé le processus demandé.
+Si cela vous bloque durant le TP, vous pouvez y revenir plus tard. 
+Mieux vaux un CRUD qui marche sans message que bloquer jusqu'à la fin pour afficher un message !
+```
+
 ## 1 : Et ainsi l'animal est
 
 **1.1 :** Retournons sur notre formulaire d'ajout d'animal. Il est temps de déterminer la methode et l'action dans notre balise form. Comme nous allons créer une donnnée, les recommandation du protocol HTTP tende vers POST. Cella permet d'utiliser la même route que l'affichage du formulaire. Nous n'aurons qu'à regarder si nous avons des données $_POST pour savoir si on doit gérer l'ajout.
@@ -519,12 +526,40 @@ Sinon
   -> Afficher le formulaire
 ```
 
+TODO A décider quel schémas garder
+
+```mermaid
+flowchart LR
+A[Envoi des données] --> B{Donnée POST présente ?}
+B--Oui--> C[Récupérer les clés nécessaires]
+C --> D{Un exception est levée?}
+D --Non--> E[Afficher le formulaire avec message d'erreur]
+D --Oui--> F[Envoyer les données au controleur]
+B--Non--> G[Afficher le formulaire avec message d'erreur]
+```
+
 ## 2 : Et maintenant l'animal changera ou ne sera point
 
-**2.1 :** Si vous êtes un bon étudiant qui aime tester les choses pour vérifier que tout fonctionne, vous devriez avoir pléthore d'animaux dans votre BD qui s'appellent Test ou bien le prénom de votre voisin avec l'espèce singe. On va donc préparer la suprression pour clean up un peu tout cela.
+**2.1 :** Si vous êtes un bon étudiant qui aime tester les choses pour vérifier que tout fonctionne, vous devriez avoir pléthore d'animaux dans votre BD qui s'appellent Test ou bien le prénom de votre voisin avec l'espèce singe. On va donc préparer la suppression pour clean up un peu tout cela.
 
-```text
-TODO : Implémenter schémas pour visualer la fonctionnalité
+Voici en résumé notre fonctionnalité :
+
+```mermaid
+sequenceDiagram  
+  participant P as Page
+  participant R as Router
+  participant C as AnimalController
+  participant M as Manager
+  P->>R: Envoi action=del-animal & idAnimal
+  alt idAnimal n'est pas présent 
+    R-->>P : Affiche l'index avec message d'erreur
+  else idAnimal est présent
+    R-->>C: displayAnimalAndIndex($idAnimal)
+  end
+  C-->>M: deleteAnimal($idAnimal)
+  M-->>C: Return rowCount
+  Note over C: Check rowCount > 0
+  C-->>P: Affiche l'index avec message
 ```
 
 Niveau modèle, rien de compliquer, une méthode deleteAnimal(int $idAnimal) à implémenter dans le manager.
@@ -556,7 +591,16 @@ A vous de jouer pour :
 Il est fort possible que, à ce stade du TP, votre fonction index ne gère pas un message. Si tel est le cas, pour éviter de casser votre code, ajouter un paramètre optionnel à votre méthode index. Puis passez ce paramètre à la fonction 'generer'. 
 ```
 
-**2.2 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée.
+**2.2 :** Marre de supprimer tout ces animaux tests ? Peut être qu'il est temps de voir pour Update notre donnée. Voici le process que l'on voudrais
+
+```mermaid
+flowchart LR
+  A(Click sur le bouton edit) --> B(Affiche un formulaire pré rempli) 
+  B --> C(Modifie les données) 
+  C --> D(Update dans la BD) 
+  D --> E(Retour sur Index avec un message sur le statut de l'update)
+
+```
 
 Cette fonction étant plus complexe, nous allons la couper en 2. Pour le moment, objectif afficher le formulaire add-animal rempli des infos de l'animal que l'on veut modifier.
 
@@ -566,11 +610,14 @@ Dans le controleur, nous avons une méthode editAnimal. Nous allons la renommé 
 
 Il ne manquera plus qu'à récupérer l'animal, et générer une vue addAnimal avec l'animal en paramètre
 
-C'est au niveau de la vue que cela devient plus complexe. En vérifiant si un animal a été fourni à la vue, pré remplissez chacun des champs avec sa valeur correspondante. Vous ajouterez un champs caché contenant l'ID qui n'existe pas. Vous pouvez aussi changer l'action du formulaire en edit-animal ainsi que le titre de la page.
+C'est au niveau de la vue que cela devient plus complexe.
 
-```text
-Vous le sentez venir, mais oui ! Nous allons faire le même procédé qu'add-animal. C'est en se basant sur la présence ou non de donnée POST que nous savons si nous devons afficher le formulaire ou bien faire l'action (ici update)
-```
+0. Pour chacune des action ci-dessous => Vérifier si un animal existe
+1. Préreplir chacun des champs avec sa valeur correspondante.
+2. Ajouter un champs caché contenant l'ID qui n'existe pas.
+3. Changer l'action du formulaire en edit-animal
+4. Changer le titre de la page
+5. Changer le texte du bouton
 
 ```text
 Votre code html parsemé de PhP peut vite devenir illisible ! N'hésitez pas à utiliser l'outil de formatage de votre IDE et de bien indenter votre code !
@@ -601,15 +648,6 @@ Vous pouvez ainsi disposer de ses méthodes et invoquer l'index.
 Pour le routeur, après avoir vérifié que nous possedont bien des données POST, nous récupérons ce qui est nécessaire via getParam. Puis, on transmet sous forme d'array à notre controleur.
 
 Et si tout se passe nickel nous devrions avoir un process fonctionnel
-
-```mermaid
-flowchart LR
-  A(Click sur le bouton edit) --> B(Affiche un formulaire pré rempli) 
-  B --> C(Modifie les données) 
-  C --> D(Update dans la BD) 
-  D --> E(Retour sur Index avec un message sur le statut de l'update)
-
-```
 
 ## 3 : Recap
 
@@ -660,6 +698,8 @@ Faisons un recap de ce que l'on attends de notre application.
 - [x] Avoir un design simple et fonctionnel
 - [ ] Plein de bonus
 
+On a bien avancé et l'objectif du prochain TP sera de cocher 2 points de plus !
+
 ## 4 : Bonus
 
 Il serait agréable de gérer nos messages de façons plus détaillé. Effectivement, nous envoyons un texte et ... puis c'est tout. Ajouter peut être un titre au message et changer sa couleur (via des classes CSS) suivant son contenu (Bleu pour les infos, Rouge pour les erreurs, Vert pour les succès).
@@ -673,3 +713,25 @@ Il ne manquera plus des les inclures dans vos template de page à l'aide d'un si
 ```
 
 Si l'on veut pousser encore plus loins, au lieu de gérer plusieurs variable, il serait temps de créer une classe Message dans un dossier helpers par exemple ;)
+
+```mermaid
+classDiagram
+
+class Message{
+    -string $message
+    -string $color
+    -string $title
+    __construct(string $message, string $color, string $title)
+}
+```
+
+Vous pouvez donnez des valeurs par défaut surtout pour color si vous utilisez un framework css. Mais aussi utiliser des constante pour ne pas avoir a taper le nom de vos couleurs à chaque fois.
+
+Exemple pour materialize:
+
+```php
+const MESSAGE_COLOR_SUCCESS = "green lighten-2";
+const MESSAGE_COLOR_ERROR = "red lighten-2";
+
+public function __construct(string $message, string $color="light-blue lighten-1", string $title="Message")
+```
